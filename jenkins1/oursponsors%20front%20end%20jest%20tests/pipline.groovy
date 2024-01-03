@@ -1,5 +1,4 @@
-
-peline {
+pipeline {
     agent any
     
     environment {
@@ -12,27 +11,22 @@ peline {
     }
     
     stages {
-        stage('Checkout Backend') {
-            steps {
-                git branch: '2023-12-06-tests', url: 'https://github.com/radkin/os_backend.git'
-            }
-        }
-        
-        stage('Start Backend') {
-            steps {
-                sh 'docker-compose up'
-            }
-        }
-        
         stage('Checkout oursponsors') {
             steps {
                 git branch: '2023-12-13-tests', url: 'https://github.com/radkin/oursponsors.git'
             }
         }
 
+        stage('Start Backend') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+
         stage('Build') {
             steps {
-              sh 'npm install'
+              sh 'npm install yarn -g'
+              sh 'yarn'
             }
         }
 
