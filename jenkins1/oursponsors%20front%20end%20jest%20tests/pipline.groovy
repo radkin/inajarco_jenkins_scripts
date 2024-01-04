@@ -26,13 +26,15 @@ pipeline {
         stage('Build') {
             steps {
               sh 'npm install yarn -g'
+              sh 'rm yarn.lock'
               sh 'yarn'
             }
         }
 
         stage('Test') {
             steps {
-              sh 'npm run test'
+                sh 'npm run test:update'
+                sh 'npm run test'
             }
         }
     }
